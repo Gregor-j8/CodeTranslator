@@ -1,0 +1,96 @@
+# Global ignores
+
+# OS
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Editor / IDE
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.iml
+*.log
+*.tmp
+*.swp
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+dist/
+build/
+coverage/
+.next/
+out/
+.eslintcache
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+venv/
+ENV/
+env/
+.venv/
+pip-wheel-metadata/
+*.egg-info/
+dist/
+build/
+.eggs/
+.ipynb_checkpoints
+
+# Java / Maven / Gradle
+target/
+build/
+*.class
+*.jar
+*.war
+*.ear
+.gradle/
+*.iml
+
+# .NET
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+*.userprefs
+.vs/
+
+# Docker
+docker-compose.override.yml
+.docker/
+
+# Logs and reports
+logs/
+*.log
+coverage/
+*.lcov
+
+# Environment / secrets
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+*.crt
+credentials.json
+
+# Misc
+*.zip
+*.tar
+*.rar
+*.7z
+*.cache
+*.DS_Store
