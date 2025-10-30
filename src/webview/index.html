@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Code Assistant</title>
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'none'; img-src ${cspSource} https:; script-src ${cspSource}; style-src ${cspSource};">
+    <link rel="stylesheet" href="${styleUri}">
+</head>
+<body>
+    <div id="splitContainer">
+        <div id="inputSection">
+            <h3>Selected Code</h3>
+            <pre id="selectedCode">${selectedText}</pre>
+        </div>
+        <div id="outputSection">
+            <h3>Output</h3>
+            <select id="languageSelect">
+                <option value="languageSelect">Select Language</option>
+                <option value="javascript">JavaScript</option>
+                <option value="typescript">TypeScript</option>
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="csharp">C#</option>
+                <option value="cpp">C++</option>
+                <option value="go">Go</option>
+                <option value="ruby">Ruby</option>
+            </select>
+            <pre id="output">Loading...</pre>
+        </div>
+    </div>
+
+    <div id="userInputContainer">
+        <div id="aiOutput">AI output will appear here...</div>
+        <div id="userInputRow">
+            <input type="text" id="userInput" placeholder="Type your question here"/>
+            <button id="processBtn">Process</button>
+        </div>
+    </div>
+
+    <script src="${scriptUri}"></script>
+</body>
+</html>
