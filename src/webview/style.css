@@ -1,0 +1,76 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#splitContainer {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+#inputSection, #outputSection {
+    flex: 1;
+    padding: 10px;
+    box-sizing: border-box;
+    border-right: 1px solid #ccc;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+#outputSection { border-right: none; }
+
+pre {
+    background: #f3f3f3;
+    padding: 10px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    color: black;
+    overflow: auto;
+    flex: 1;
+}
+
+#languageSelect {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 5px;
+}
+
+#userInputContainer {
+    padding: 10px;
+    border-top: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+#aiOutput {
+    background: #f9f9f9;
+    padding: 10px;
+    border: 1px solid #ccc;
+    height: 80px;
+    overflow: auto;
+    color: black;
+}
+
+#userInputRow {
+    display: flex;
+    gap: 10px;
+}
+
+#userInput {
+    flex: 1;
+    padding: 5px;
+    font-size: 14px;
+    color: black;
+}
+
+#processBtn {
+    padding: 5px 10px;
+}
