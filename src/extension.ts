@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
+import { ollamabackend } from './ollama';
 
 export function activate(context: vscode.ExtensionContext) {
     console.log('CodeTranslator extension is now active!');
@@ -46,14 +47,24 @@ export function activate(context: vscode.ExtensionContext) {
                     if (message.userInput) {
                         vscode.window.showInformationMessage(`Requesting Information...`);
 
-                        // Example AI response — replace with real logic later
-                        const aiResponse = `Command: ${message.command || ''}, Language: ${message.language || ''}, User Input: ${message.userInput || ''}, Output: ${message.output || ''}`;
+                        const onToken = (token: string) => {
+                            panel.webview.postMessage({
+                                command: 'streamToken',
+                                token: token
+                            });
+                        };
+                        vscode.window.showInformationMessage(`hitting prompt...`);
+                        const prompt = `Translate the following code to ${message.language}
+                        :\n\n${selectedText}\n\nAdditional instructions: ${message.userInput}`;
 
+                        const aiResponse = await ollamabackend(prompt, message.language, onToken);
+                        console.log('AI Response:', aiResponse);
                         panel.webview.postMessage({
                             command: 'updateAIOutput',
                             text: aiResponse
                         });
                     }
+
                     break;
                 }
             }
