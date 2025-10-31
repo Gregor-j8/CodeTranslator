@@ -47,17 +47,17 @@ export function activate(context: vscode.ExtensionContext) {
                     if (message.userInput) {
                         vscode.window.showInformationMessage(`Requesting Information...`);
 
-                        const onToken = (token: string) => {
-                            panel.webview.postMessage({
-                                command: 'streamToken',
-                                token: token
-                            });
-                        };
+                    const onToken = (token: string) => {
+                        panel.webview.postMessage({
+                            command: 'streamToken',
+                            token: token
+                        });
+                    };
                         vscode.window.showInformationMessage(`hitting prompt...`);
                         const prompt = `Translate the following code to ${message.language}
                         :\n\n${selectedText}\n\nAdditional instructions: ${message.userInput}`;
 
-                        const aiResponse = await ollamabackend(prompt, message.language, onToken);
+                        const aiResponse = await ollamabackend(prompt, onToken);
                         console.log('AI Response:', aiResponse);
                         panel.webview.postMessage({
                             command: 'updateAIOutput',
