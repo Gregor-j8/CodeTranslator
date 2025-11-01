@@ -30,7 +30,7 @@ export const ollamabackend = async (prompt: string, onToken?: (token: string) =>
             model: 'llama3.2:1b',
             prompt: prompt,
             stream: !!onToken
-        }
+        };
 
         try {
             const response = await axios.post(
@@ -43,17 +43,17 @@ export const ollamabackend = async (prompt: string, onToken?: (token: string) =>
             );
 
             if (!onToken) {
-                return response.data.response
+                return response.data.response;
             }
 
             return new Promise((resolve, reject) => {
-                let fullResponse = ''
-                let buffer = ''
+                let fullResponse = '';
+                let buffer = '';
 
                 response.data.on('data', (chunk: Buffer) => {
                     buffer += chunk.toString()
-                    const lines = buffer.split('\n')
-                    buffer = lines.pop() || ''
+                    const lines = buffer.split('\n');
+                    buffer = lines.pop() || '';
 
                     for (const line of lines) {
                         if (line.trim()) {

@@ -20,8 +20,6 @@ processBtn.addEventListener('click', () => {
     vscode.postMessage({
         command: 'processCode',
         userInput: userInput.value,
-        output: output.textContent,
-        language: languageDropdown.value
     });
 });
 
@@ -36,7 +34,11 @@ window.addEventListener('message', event => {
         aiOutput.textContent = message.text;
     }
 
-    if (aiOutput && message.command === 'streamToken') {
+    if (output && message.command === 'streamOutputToken') {
+        output.textContent += message.token;
+    }
+
+    if (aiOutput && message.command === 'streamAIToken') {
         aiOutput.textContent += message.token;
     }
 });
