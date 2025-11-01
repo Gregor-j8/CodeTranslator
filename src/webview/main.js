@@ -7,7 +7,7 @@ const output = document.getElementById('output');
 const aiOutput = document.getElementById('aiOutput');
 
 languageDropdown.addEventListener('change', () => {
-    if (languageDropdown.value != 'languageSelect')
+    if (languageDropdown.value !== 'languageSelect')
     {
         vscode.postMessage({
         command: 'dropdownChange',
@@ -20,7 +20,6 @@ processBtn.addEventListener('click', () => {
     vscode.postMessage({
         command: 'processCode',
         userInput: userInput.value,
-        output: output.textContent
     });
 });
 
@@ -33,5 +32,13 @@ window.addEventListener('message', event => {
 
     if (aiOutput && message.command === 'updateAIOutput') {
         aiOutput.textContent = message.text;
+    }
+
+    if (output && message.command === 'streamOutputToken') {
+        output.textContent += message.token;
+    }
+
+    if (aiOutput && message.command === 'streamAIToken') {
+        aiOutput.textContent += message.token;
     }
 });
