@@ -1,5 +1,7 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
+import { ollamabackend } from './ollama';
+
 
 export function activate(context: vscode.ExtensionContext) {
     console.log('CodeTranslator extension is now active!');
@@ -24,36 +26,54 @@ export function activate(context: vscode.ExtensionContext) {
             }
         );
 
+        const onDropdownToken = (token: string) => {
+            panel.webview.postMessage({
+                command: 'streamOutputToken',
+                token: token
+            });
+        };
+
+        const onProcessToken = (token: string) => {
+            panel.webview.postMessage({
+                command: 'streamAIToken',
+                token: token
+            });
+        };
+
         panel.webview.html = getWebviewContent(panel.webview, context.extensionUri, selectedText);
 
         panel.webview.onDidReceiveMessage(async (message: { command: string; language?: string; userInput?: string; output?: string }) => {
             switch (message.command) {
                 case 'dropdownChange': {
-                    const selectedLanguage = message.language;
-                    vscode.window.showInformationMessage(`Language changed to: ${selectedLanguage}`);
+                    if (message.language && message.language !== 'Select a language' && selectedText.trim() !== '') {
+                        const prompt = `Translate the following code to ${message.language}:\n\n${selectedText} Only return the translated code without any explanations or comments`;
+                        const newTranslation = await ollamabackend(prompt, onDropdownToken);
+                        vscode.window.showInformationMessage(`newTranslation: ${newTranslation}`);
+                        panel.webview.postMessage({
+                            command: 'updateOutput',
+                            text: newTranslation
+                        });
+                    }
 
-                    // Example translation logic — replace with real AI logic later
-                    const newTranslation = selectedText.toUpperCase();
-
-                    panel.webview.postMessage({
-                        command: 'updateOutput',
-                        text: newTranslation
-                    });
                     break;
                 }
 
                 case 'processCode': {
-                    if (message.userInput) {
+
+                    if (message.userInput && message.userInput?.length > 1 && selectedText.trim() !== '') {
                         vscode.window.showInformationMessage(`Requesting Information...`);
 
-                        // Example AI response — replace with real logic later
-                        const aiResponse = `Command: ${message.command || ''}, Language: ${message.language || ''}, User Input: ${message.userInput || ''}, Output: ${message.output || ''}`;
+                        vscode.window.showInformationMessage(`hitting prompt...`);
+                        const prompt = `Translate the following code to :\n\n${selectedText}\n\nAdditional instructions: ${message.userInput}`;
 
+                        const aiResponse = await ollamabackend(prompt, onProcessToken);
+                        console.log('AI Response:', aiResponse);
                         panel.webview.postMessage({
                             command: 'updateAIOutput',
                             text: aiResponse
                         });
                     }
+
                     break;
                 }
             }
